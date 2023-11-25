@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <body>
+
+        <ui:composition template="./template/template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="serviceForm">
+                    <p:panel header="Gestion des services">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="id : " />
+                            <p:inputText value="#{serviceBean.service.id}" readonly="true" />
+                            <p:outputLabel value="Nom : " />
+                            <p:inputText value="#{serviceBean.service.nom}" />
+                            <p:commandButton value="Envoyer" actionListener="#{serviceBean.onCreateAction}" update=":services" />
+                        </p:panelGrid>
+                    </p:panel>
+                </h:form>
+                <h:form id="services">
+                    <p:panel header="Liste des services">
+                        <p:dataTable var="s" value="#{serviceBean.services}" editable="true">
+                            <p:column filterBy="#{s.id}" headerText="Id">
+                                <p:outputLabel value="#{s.id}" />
+                            </p:column>
+                            <p:column sortBy="#{s.nom}" headerText="Nom">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{s.nom}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{s.nom}" style="width:100%" />
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="Modifier">
+                                <p:rowEditor />
+                            </p:column>
+                            <p:column headerText="Supprimer">
+                                <p:commandButton icon="ui-icon-trash" update=":services" oncomplete="PF('confirmation').show()">
+                                    <f:setPropertyActionListener target="#{serviceBean.service}" value="#{s}" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:dialog id="confirmDialog" showEffect="fade" header="Suppression d'un service" widgetVar="confirmation">
+                            <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;" />
+                            <h:inputHidden value="#{serviceBean.service.id}" id="supp" required="true" />
+
+                            <p:outputLabel value="Etes vous sûr de vouloir supprimer ce Service ?" />
+                            <p:commandButton id="confirm" value="Oui" update=":services" oncomplete="PF('confirmation').hide();" actionListener="#{serviceBean.onDeleteAction}" />
+                            <p:commandButton id="decline" value="Non" onclick="PF('confirmation').hide()" type="button" />
+                        </p:dialog>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

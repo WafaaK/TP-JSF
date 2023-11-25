@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <body>
+
+        <ui:composition template="./template/template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="employeForm">
+                    <p:panel header="Gestion des employés">
+                        <p:panelGrid columns="3" id="p1">
+                            <p:outputLabel value="Nom"/>
+                            <p:inputText id="nom" value="#{employeBean.employe.nom}" required="true"/>
+                            <p:message for="nom" />
+
+                            <p:outputLabel value="Prénom"/>
+                            <p:inputText id="prenom" value="#{employeBean.employe.prenom}" required="true"/>
+                            <p:message for="prenom" />
+
+                            <p:outputLabel value="Date de Naissance"/>
+                            <p:calendar id="dateDeNaissance" value="#{employeBean.employe.dateNaisssance}" pattern="yyyy-MM-dd" required="true"/>
+                            <p:message for="dateDeNaissance" />
+
+                            <p:outputLabel value="Photo"/>
+                            <p:fileUpload id="photo" value="#{employeBean.employe.photo}" />
+                            <p:message for="photo" />
+
+                            <p:outputLabel value="Service"/>
+                           <p:selectOneMenu id="service" value="#{employeBean.employe.service.id}" required="true">
+    <f:selectItem itemLabel="Sélectionner" itemValue=""/>
+    <f:selectItem itemLabel="Service 1" itemValue="1"/>
+    <f:selectItem itemLabel="Service 2" itemValue="2"/>
+    <f:selectItem itemLabel="Service 3" itemValue="2"/>
+    <f:selectItem itemLabel="Service 4" itemValue="2"/>
+</p:selectOneMenu>
+
+                            <p:message for="service" />
+
+                            <p:outputLabel value="Chef"/>
+                           <p:selectOneMenu id="chef" value="#{employeBean.selectedChef.id}" required="true">
+    <f:selectItem itemLabel="Sélectionner" itemValue=""/>
+    <f:selectItem itemLabel=" Ahmed El Amrani
+" itemValue="1"/>
+    <f:selectItem itemLabel="Lachgar Mohamed" itemValue="2"/>
+  
+</p:selectOneMenu>
+
+                        </p:panelGrid>
+
+                        <p:commandButton value="Ajouter" action="#{employeBean.onCreateAction}" update=":f2:tab"/>
+
+                    </p:panel>
+                </h:form>
+
+                <f:view>
+                    <h:form id="f2">
+                        <p:dataTable id="tab" var="employe" value="#{employeBean.employes}"  editable="true" paginator="true" rows="10">
+                            <f:facet name="header">
+                                Liste des employés
+                            </f:facet>
+
+                            <p:ajax event="rowEdit" listener="#{employeBean.onEdit}"  />
+                            <p:ajax event="rowEditCancel" listener="#{employeBean.onCancel}"  />
+
+                            <p:column headerText="Nom">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{employe.nom}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{employe.nom}" style="width:100%"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Prénom">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{employe.prenom}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{employe.prenom}" style="width:100%"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Photo">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <p:graphicImage value="#{employe.photo}" width="50" height="50"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:fileUpload value="#{employe.photo}" style="width:100%"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Date de Naissance">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{employe.dateNaisssance}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:calendar id="dateDeNaissance" value="#{employe.dateNaisssance}" pattern="yyyy-MM-dd" required="true"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                           <p:column headerText="Service">
+    <p:cellEditor>
+        <f:facet name="output">
+            <h:outputText value="#{employe.service.nom}" />
+        </f:facet>
+        <f:facet name="input">
+            <p:selectOneMenu value="#{employe.service.id}" required="true" style="width: 100%">
+                <f:selectItem itemLabel="#{employe.service.nom}" itemValue="#{employe.service.id}" />
+                <f:selectItems value="#{serviceBean.services}" var="s"
+                               itemLabel="#{s.nom}" itemValue="#{s.id}" />
+            </p:selectOneMenu>
+        </f:facet>
+    </p:cellEditor>
+</p:column>
+
+
+                            <p:column headerText="Chef">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{employe.chef.nom}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:selectOneMenu value="#{employe.chef.id}" required="true" style="width: 100%">
+                                            <f:selectItem itemLabel="#{employe.chef.nom}" itemValue="#{employe.id}" />
+                                            <f:selectItems value="#{employeBean.employes}" var="s"
+                                                           itemLabel="#{s.nom}" itemValue="#{s.id}" />
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Modifier">
+                                <p:rowEditor />
+                            </p:column>
+
+                            <p:column headerText="Supprimer">
+                                <p:commandButton id="Supprimer" icon="ui-icon-trash"
+                                                 update=":f2:confirmDialog,:f2:tab" oncomplete="PF('confirmation').show()"
+                                                 title="Supprimer">
+                                    <f:setPropertyActionListener target="#{employeBean.employe}"
+                                                                 value="#{employe}" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>  
+
+                        <p:dialog id="confirmDialog" showEffect="fade"
+                                  header="Suppression d'un employé" 
+                                  widgetVar="confirmation">
+                            <h:panelGrid id="display" columns="2" cellpadding="4"
+                                         style="margin:0 auto;" />
+                            <h:inputHidden value="#{employeBean.employe.id}" id="supp"
+                                           required="true" />
+
+                            <p:outputLabel
+                                value="Etes vous sûr de vouloir supprimer cet employé ?" />
+                            <p:commandButton id="confirm" value="Oui"
+                                             update=":f2:tab" oncomplete="PF('confirmation').hide();"
+                                             actionListener="#{employeeBean.onDeleteAction}" />
+                            <p:commandButton id="decline" value="Non"
+                                             onclick="PF('confirmation').hide()" type="button" />
+
+                        </p:dialog>
+                    </h:form>
+                </f:view>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
