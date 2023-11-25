@@ -1,6 +1,19 @@
 # TP-JSF
 
-# Page web qui permettent la gestion des service et des employes dans ces services
+# Pages webs qui permettent la gestion des service et des employes dans ces services
+# JSF
+
+JavaServer Faces (JSF) est un framework Java utilisé pour simplifier le développement d'applications web basées sur des composants.
+Il fournit une architecture pour la construction d'interfaces utilisateur en utilisant des composants réutilisables, facilitant 
+ainsi la gestion de l'état des pages et l'interaction avec le serveur
+
+# Technologie utilisees
+
+- Java Server Faces (JSF) : Framework Java pour développer des applications web basées sur des composants.
+- Java EE (Enterprise Edition) : Plateforme d'exécution pour les applications Java d'entreprise.
+- Java Persistence API (JPA) : Spécification Java pour la gestion de la persistance des données.
+- PrimeFaces : Bibliothèque de composants JSF riches et réactifs.
+- MySQL : Base de données pour stocker les données de l'application.
 
 
 
@@ -10,7 +23,8 @@
 
 # Base de donnee:
 
-<img width="626" alt="base de donnee3" src="https://github.com/WafaaK/TP-JSF/assets/147450674/b6872fe6-b295-4e69-8421-07d4bb453790">
+
+<img width="509" alt="base de donnee2" src="https://github.com/WafaaK/TP-JSF/assets/147450674/b7a28da9-ad26-4eca-8d90-4ff3d51c640f">
 
 # Gestion des services
 # Ajout
